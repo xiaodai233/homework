@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<style type="text/css">
+			html {
+				font-size: calc(100vw/7.50);
+			}
+			
+			body{
+				margin: 0;
+			}
+			.top-nav{
+				width: 100%;
+				height: 0.9rem;
+				background-color: #f4f4f4;
+				position: fixed;
+				z-index: 999;
+				border-bottom: solid 1px #cecece;
+			}
+			.container{
+				padding-top: 0.9rem;
+				height: 100vh;
+				box-sizing: border-box;
+				background-color: #f3f5f7;
+				overflow: hidden;
+			}
+			
+			.slide{
+				position: relative;
+				height: inherit;
+				width: 1.5rem;
+				overflow: hidden;
+				
+				
+			}
+			.slide ul{
+				margin: 0;
+				padding: 0;
+				font-size: 0.22rem;
+				line-height: 0.9rem;
+				text-align: center;
+				position: absolute;
+				background-color: white;
+				border-top:solid 1px #e5e5e5;
+				border-right:solid 1px #e5e5e5;
+				width: 100%;
+				top: 0;
+				left: 0;
+			}
+			.slide ul li{
+				border-bottom:solid 1px #e5e5e5;
+			}
+			.slide ul li a{
+				color:#010101;
+				text-decoration: none;
+			}
+			
+			ul li a:hover{
+				color: red;
+			}
+			.right-1{
+				position: fixed;
+				top: 85px;
+				left: 180px;
+				
+			}
+			.right-1 img{
+				margin: 20px;
+				
+			}
+			.right-1{
+				overflow: hidden;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="top-nav"></div>
+		
+		<div class="container">
+			<div class="slide">
+				<ul class="">
+					<li><a href="#">手机</a></li>
+					<li><a href="#">电脑</a></li>
+					<li><a href="#">平板</a></li>
+					<li><a href="#">电视</a></li>
+					<li><a href="#">洗衣机</a></li>
+					<li><a href="#">空调</a></li>
+					<li><a href="#">冰箱</a></li>
+					<li><a href="#">手机</a></li>
+					<li><a href="#">电脑</a></li>
+					<li><a href="#">平板</a></li>
+					<li><a href="#">电视</a></li>
+					<li><a href="#">洗衣机</a></li>
+					<li><a href="#">空调</a></li>
+					<li><a href="#">冰箱</a></li>
+					<li><a href="#">手机</a></li>
+					<li><a href="#">电脑</a></li>
+					<li><a href="#">平板</a></li>
+					<li><a href="#">电视</a></li>
+					<li><a href="#">洗衣机</a></li>
+				  	<li><a href="#">空调</a></li>
+					<li><a href="#">冰箱</a></li>
+					<li><a href="#">手机</a></li>
+					<li><a href="#">电脑</a></li>
+					<li><a href="#">平板</a></li>
+					<li><a href="#">电视</a></li>
+					<li><a href="#">洗衣机</a></li>
+					<li><a href="#">空调</a></li>
+					<li><a href="#">冰箱</a></li>
+					<li><a href="#">手机</a></li>
+					<li><a href="#">电脑</a></li>
+					<li><a href="#">平板</a></li>
+					<li><a href="#">电视</a></li>
+					<li><a href="#">洗衣机</a></li>
+					<li><a href="#">空调</a></li>
+					<li><a href="#">冰箱</a></li>
+				</ul>
+				
+			</div>
+			<div class="right-1">
+			 <img src="img/1.jpg"/>
+			 <img src="img/2.jpg"/>
+			 <img src="img/3.jpg"/>
+			 <img src="img/4.jpg"/>
+			 <img src="img/5.jpg"/>
+			 <img src="img/6.jpg"/>
+			</div>
+		</div>
+		<script type="text/javascript" src="js/jquery-2.1.0.js" ></script>
+		<script type="text/javascript">
+			var slide = document.querySelector(".slide");
+			var ul = document.querySelector(".slide ul");
+			var startY = 0;
+			var topOffset = 0;
+			console.log(slide);
+			
+			// 触摸开始放
+			slide.ontouchstart = function(e){
+				startY = e.touches[0].pageY;
+			}
+			//触摸滑动
+			slide.ontouchmove = function(e){
+				var y = e.touches[0].pageY;
+				var t = topOffset + y - startY;
+				// 上边边界限定
+				t = t>150?150:t;
+				
+				// 下边边界限定
+				if(t <($(".slide").height() -$(".top-nav").height() - $(".slide ul").height()-150)){
+					t =  $(".slide").height() -$(".top-nav").height() - $(".slide ul").height()-150;
+				}
+				ul.style.top = t+"px";
+			}
+			// 触摸结束
+			slide.ontouchend = function(e){
+				var y = e.changedTouches[0].pageY;
+				var t = topOffset + y - startY;
+				
+				// 回到顶部的动画
+				if(t>0){
+					$(".slide ul").animate({
+						top:"0px"
+					},300);
+					t = 0;
+				}
+				
+				// 回到底部的动画
+				var a =  $(".slide").height() -$(".top-nav").height() - ($(".slide ul").height()+t);
+				if(a > 0){
+					t =  $(".slide").height() -$(".top-nav").height() - $(".slide ul").height();
+					$(".slide ul").animate({
+						top:t+"px"
+					},300);
+				}
+				topOffset = t;
+				startY = y;
+			}
+			// 触摸取消
+			slide.ontouchcancel = function(e){
+				console.log('取消');
+			}
+		</script>
+		
+	</body>
+
+</html>
